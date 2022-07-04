@@ -2,7 +2,16 @@
 ### Introduction
 ---
 Multipass is a lightweight VM manager for Linux, Windows and macOS. It's designed for developers who want a fresh Ubuntu environment with a single command. Now this documents will help you config multipass create instance have network bridge with server.
-### Install multipass
+### Network bridge for multipass
+---
+A network bridge is a computer networking device that creates a single, aggregate network from multiple communication networks or network segments. This function is called network bridging.[1] Bridging is distinct from routing. Routing allows multiple networks to communicate independently and yet remain separate, whereas bridging connects two separate networks as if they were a single network.
+
+![hub-in-networking](https://user-images.githubusercontent.com/62330937/177121273-c58daa1e-d9d1-437d-94bd-5bb254800e56.jpeg)
+
+1. Any LXD will have ip same to the server.
+Example: Router (192.168.1.1) -> server (192.168.1.3) and any lxd have create will have 192.168.1.x
+
+### Install multipass.
 ---
 To install Multipass, simply execute:
 
@@ -73,6 +82,18 @@ mpbr0            bridge    Network bridge for Multipass
 To show list instance multipass:
 ```sh
 multipass list
+```
+Config varible local multipass first we need to update local variable for multipass can understand the run time on ubuntu (have tested in ubuntu server 20.04LTS). First will will check backend use what's a `driver` multipass. This mistake it will show in log is `Network error message: Feature is not implemented on this backend`
+```sh
+multipass get local.driver
+```
+If `local.driver` have response is not `lxd`, need to change to lxd bellow command:
+```sh
+multipass set local.driver=lxd
+```
+According on top we can use `multipass networks` to check networks on server and choose right name networks to set bridged. 
+```sh
+multipass set local.bridged-network = `Name network`
 ```
 Let create new instance multipass using network bridge.
 ```

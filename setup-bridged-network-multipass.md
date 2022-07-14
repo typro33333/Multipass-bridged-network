@@ -92,11 +92,12 @@ network:
       nameservers:
         addresses: [8.8.8.8, 192.168.xxx.1 or 192.168.0.1 # Get from gateway4]
 ```
-:exclamation: Some new update from netplan you can use route instead for gateway4:
+:exclamation: Some new update from netplan you can use routes instead for gateway4:
 ```python
-`remove `
-- to: default
-  via: 192.168.xxx.yyy
+# remove gateway4 and replace bellow
+routes:
+  - to: default
+    via: 192.168.xxx.yyy
 ```
 
 After config like on top need restart netplan
